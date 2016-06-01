@@ -9,6 +9,7 @@ $(document).ready(function() {
 	$("#medium").click(function() {	startGame(20) });
 	$("#hard").click(function() {	startGame(40) });
 	$("#impossible").click(function() {	startGame(175) });
+	$("#home-button").click(reload);
 
 	function startGame(levelOfDifficulty) {
 		$("#introHeader").css("display", "none");
@@ -38,7 +39,6 @@ $(document).ready(function() {
 			if($newShape.css("background-color") == CORRECTCOLOR) {
 				redCircleCount++;
 				$("#score").html(redCircleCount);
-				determineIfWon(redCircleCount);
 			} else {
 				lives--;
 				$("#lives").html(lives);
@@ -60,19 +60,10 @@ $(document).ready(function() {
 		}
 	}
 
-	function determineIfWon(count) {
-		if (count == 7) {
-			setupResultsDisplay();
-			displayGameResult("You win :)")
-			startOver();
-		}
-	}
-
 	function determineIfLost(lives) {
 		if (lives == 0) {
 			setupResultsDisplay();
-			displayGameResult("You lose :(");
-			startOver();
+			displayGameResult("Game over :-/");
 		}
 	}
 
