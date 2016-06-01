@@ -12,7 +12,7 @@ h1{
 	font-size: 72px;
 	font-family: arial-black;
 }
-#gameHeader{
+#game-header{
 	z-index: 1;
 	display: none;
 	background:#F9F9F9;
@@ -37,14 +37,10 @@ h1{
 #home{
 	margin-top: 1.8em;
 }
-#endOfGame{
+#end-of-game{
 	margin-top: 150px;
 	font-size: 5em;
 	color: #FF1300;
 	font-weight: bold;
 	display: none;
-}
-#footer{
-	color: lightgray;
-	padding: 50px 0 50px 0;
 }
