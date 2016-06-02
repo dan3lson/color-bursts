@@ -2,23 +2,31 @@ $(document).ready(function() {
 	var redCircleCount = 0;
 	var lives = 3;
 	var $shapeContainer = $("#shape-container");
-	var circleDimensions = "33px";
-	var CORRECTCOLOR = "rgb(255, 19, 19)";
+	var circleDimensions = "50px";
+	var CORRECTCOLOR = "rgb(255, 59, 48)";
 
-	$("#easy").click(function() {	startGame(3) });
-	$("#medium").click(function() {	startGame(20) });
-	$("#hard").click(function() {	startGame(40) });
-	$("#impossible").click(function() {	startGame(175) });
+	$("#easy").click(function() {	startGame(3); });
+	$("#medium").click(function() {	startGame(20); });
+	$("#hard").click(function() {	startGame(40); });
+	$("#impossible").click(function() {	startGame(65); });
 	$("#home-button").click(reload);
 
 	function startGame(levelOfDifficulty) {
-		$("#intro-header").css("display", "none");
-		$("body").css("background", "#FFF");
-		$("#game-zone-header").css("display", "block");
+		hideOtherSections("#game-zone");
+		hideFooter();
+		$("#game-zone").fadeIn();
 		$("#score").html(redCircleCount);
 		$("#lives").html(lives);
 		$("#home-icon").click(reload);
 		createAllShapes(levelOfDifficulty);
+	}
+
+	function hideFooter() {
+		$(".footer").hide();
+	}
+
+	function hideOtherSections(section) {
+		$("section").not(section).hide();
 	}
 
 	function createAllShapes(levelOfDifficulty) {
@@ -28,18 +36,25 @@ $(document).ready(function() {
 	}
 
 	function displayShapes() {
-		var $newShape = createCircle();
-		$shapeContainer.append($newShape);
+		var $circle = createCircle();
+		$shapeContainer.append($circle);
 		var totalShapes = $shapeContainer.find("div").length;
-		$newShape.css("left", positionWidth());
-		$newShape.css("top", positionHeight());
-		$newShape.css("position", "absolute");
+		$circle.css("left", positionWidth());
+		$circle.css("top", positionHeight());
+		$circle.css("position", "absolute");
 
-		$newShape.click(function() {
-			if ($newShape.css("background-color") == CORRECTCOLOR) {
+		if ($circle.css("background-color") == "rgb(0, 0, 0)") {
+			var $bomb = createElement("i", "fa fa-bomb");
+			$circle.addClass("bomb");
+			$circle.append($bomb);
+		}
+
+		$circle.click(function() {
+			if ($circle.css("background-color") == CORRECTCOLOR) {
 				redCircleCount++;
 				$("#score").html(redCircleCount);
 			} else {
+				console.log("WRONG:", $circle.css("background-color"));
 				lives--;
 				$("#lives").html(lives);
 				determineIfLost(lives);
@@ -63,7 +78,7 @@ $(document).ready(function() {
 	function determineIfLost(lives) {
 		if (lives == 0) {
 			setupResultsDisplay();
-			displayGameResult("Game over :-/");
+			displayGameResult("GAME OVER");
 		}
 	}
 
@@ -107,17 +122,15 @@ $(document).ready(function() {
 			"#5AC8FA",
 			"#FFCC00",
 			"#FF9500",
-			"#FF2D55",
 			"#007AFF",
 			"#4CD964",
-			"#FF3B30",
 			"#8E8E93",
 			"#EFEFF4",
 			"#CECED2",
 			"#000000",
 			"#007AFF"
 		];
-		return shape_colors[randomRange(12, 0)];
+		return shape_colors[randomRange(11, 0)];
 	}
 
 	function randomRange (x, y) {
