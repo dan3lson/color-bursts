@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The addictive game that sends a burst of colors to your screen.">
-    <meta name="keywords" content="addictive game balls color circle ios mobile">
+    <meta name="keywords" content="addictive game balls color circle ios mobile dots">
     <meta name="author" content="Danelson Rosa">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Color Burst</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
 		<link href="css/custom.css" rel="stylesheet">
 
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -21,28 +21,28 @@
 	      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	    <![endif]-->
 	</head>
-
-	<body align="center">
-		<div class="container content">
-			<div class="row">
-					<div id="introHeader">
-						<h1>Color Burst<small>&trade;</small></h1>
-						<div id="levels">
-							<button class="btn btn-default btn-block" id="easy">
-								Easy
-							</button>
-							<button class="btn btn-default btn-block" id="medium">
-								Medium
-							</button>
-							<button class="btn btn-default btn-block" id="hard">
-								Hard
-							</button>
-							<button class="btn btn-default btn-block" id="impossible">
-								Impossible
-							</button>
-						</div>
-					</div>
-					<div id="game-header">
+	<body>
+		<div class="container">
+			<div id="header">
+				<h1 class="center">Color Burst</h1>
+			</div>
+			<section id="play-options">
+				<button class="btn btn-default btn-block" id="easy">
+					Easy
+				</button>
+				<button class="btn btn-default btn-block" id="medium">
+					Medium
+				</button>
+				<button class="btn btn-default btn-block" id="hard">
+					Hard
+				</button>
+				<button class="btn btn-default btn-block" id="impossible">
+					Impossible
+				</button>
+			</section>
+			<section id="game-zone">
+				<div class="row">
+					<div id="game-zone-header">
 						<div class="col-xs-4">
 							<span id="lives"></span>
 							<br>
@@ -58,21 +58,84 @@
 						</div>
 					</div>
 					<div id="shape-container"></div>
+				</div>
+				<div id="end-of-game">
+					<div id="game-result"></div>
+					<div class="form-control">
+						<input type="text" name="player" value="" placeholder="Enter your name">
+					</div>
+					<button class="btn btn-default btn-block" id="replay">
+						Play again?
+					</button>
+				</div>
+			</section>
+			<section id="leaderboards-container">
+				<div class="segmented-control">
+					<a class="control-item active" href="">Easy</a>
+					<a class="control-item" href="">Medium</a>
+					<a class="control-item" href="">Hard</a>
+					<a class="control-item" href="">Impossible</a>
+				</div>
+				<br>
+				<div id="rankings">
+					<table class="table table-condensed table-striped">
+						<th>#</th>
+						<th>Player</th>
+						<th>Score</th>
+						<th>Time</th>
+						<tr>
+							<td>1</td>
+							<td>DAR</td>
+							<td>333</td>
+							<td>10 minutes</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>DAR</td>
+							<td>233</td>
+							<td>10 minutes</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>DAR</td>
+							<td>133</td>
+							<td>10 minutes</td>
+						</tr>
+					</table>
+				</div>
+			</section>
+			<section id="info-container">
+				INFO CONTAINER CONTENT
+			</section>
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<div class="row center">
+					<div class="col-xs-4 active">
+						<i class="fa fa-gamepad"></i>
+						<br>
+						Play
+					</div>
+					<div class="col-xs-4" id="leaderboards-btn">
+						<i class="fa fa-trophy"></i>
+						<br>
+						Leaderboards
+					</div>
+					<div class="col-xs-4">
+						<i class="fa fa-info-circle"></i>
+						<br>
+						Info
+					</div>
+				</div>
 			</div>
-		</div>
-
-		<div id="end-of-game">
-			<div id="game-result"></div>
-			<button class="btn btn-default btn-block" id="replay">
-				Play again?
-			</button>
-		</div>
+		</footer>
 
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"
 						integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
 						crossorigin="anonymous"></script>
-		<script src="js/color_burst.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/color_burst.js"></script>
+		<script src="js/leaderboards.js"></script>
 		<!-- <script>
 			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
