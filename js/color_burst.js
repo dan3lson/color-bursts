@@ -12,9 +12,9 @@ $(document).ready(function() {
 	$("#home-button").click(reload);
 
 	function startGame(levelOfDifficulty) {
-		$("#introHeader").css("display", "none");
+		$("#intro-header").css("display", "none");
 		$("body").css("background", "#FFF");
-		$("#game-header").css("display", "block");
+		$("#game-zone-header").css("display", "block");
 		$("#score").html(redCircleCount);
 		$("#lives").html(lives);
 		$("#home-icon").click(reload);
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	function createAllShapes(levelOfDifficulty) {
 		for (var i = 0; i < levelOfDifficulty; i++) {
 			setInterval(displayShapes, 300);
-		};
+		}
 	}
 
 	function displayShapes() {
@@ -36,21 +36,21 @@ $(document).ready(function() {
 		$newShape.css("position", "absolute");
 
 		$newShape.click(function() {
-			if($newShape.css("background-color") == CORRECTCOLOR) {
+			if ($newShape.css("background-color") == CORRECTCOLOR) {
 				redCircleCount++;
 				$("#score").html(redCircleCount);
 			} else {
 				lives--;
 				$("#lives").html(lives);
 				determineIfLost(lives);
-			};
+			}
 
 			console.log("Red circle count", redCircleCount);
 			console.log("Lives: ", lives);
 
 			var totalShapes = $shapeContainer.find(".circle");
 			console.log("Num circles", totalShapes.length);
-			randomizeColor(totalShapes)
+			randomizeColor(totalShapes);
 		});
 	};
 
@@ -102,30 +102,22 @@ $(document).ready(function() {
 	}
 
 	function randomColor() {
-		// var shape_colors = [
-		// 	"red",
-		// 	"blue",
-		// 	"brown",
-		// 	"purple",
-		// 	"gold",
-		// 	"black",
-		// 	"green",
-		// 	"pink",
-		// 	"orange",
-		// 	"gray"
-		// ];
 		var shape_colors = [
 			CORRECTCOLOR,
-			"#007AFF",
-			"#5856D6",
+			"#5AC8FA",
 			"#FFCC00",
-			"#1F1F21",
-			"#4CD964",
-			"#FF4981",
 			"#FF9500",
-			"#BDBEC2"
+			"#FF2D55",
+			"#007AFF",
+			"#4CD964",
+			"#FF3B30",
+			"#8E8E93",
+			"#EFEFF4",
+			"#CECED2",
+			"#000000",
+			"#007AFF"
 		];
-		return shape_colors[randomRange(9, 0)];
+		return shape_colors[randomRange(12, 0)];
 	}
 
 	function randomRange (x, y) {
