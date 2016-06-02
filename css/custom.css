@@ -1,3 +1,9 @@
+.bomb {
+	color: #FFF;
+	font-size: 25px;
+	padding-top: 5px;
+	text-align: center;
+}
 .center {
 	text-align: center;
 }
@@ -24,33 +30,30 @@
 .footer .col-xs-4.active {
 	color: #333;
 }
-.footer i {
+.footer i, #game-zone-header i {
 	font-size: 24px;
 }
-#game-zone-header {
-	background: #F9F9F9;
+#game-zone {
 	display: none;
-	left: 0;
+}
+#game-zone-header {
+	background: #FFF;
+	border-bottom: 1px solid #DDD;
+	border-top: 0;
+	color: #929292;
+	font-size: 24px;
+	height: 49px;
+	padding-top: 5px;
 	position: absolute;
+	top: 0;
 	width: 100%;
 	z-index: 1738;
 }
 h1 {
 	font-family: arial-black;
 }
-#home {
-	margin-top: 1.8em;
-}
 #leaderboards-container, #info-container {
 	display: none;
-}
-#scoreTitle, #livesTitle {
-	color: #BDBEC2;
-}
-#score {
-	color: #FF1300;
-	font-size: 5em;
-	font-weight: bold;
 }
 .segmented-control {
 	background-color: #fff;
@@ -81,7 +84,6 @@ h1 {
 .segmented-control .control-item.active {
 	background-color: #CCC;
 }
-#lives {
-	color: #FF1300;
-	font-size: 5em;
-}
+/*#shape-container {
+	width: 50%;
+}*/
