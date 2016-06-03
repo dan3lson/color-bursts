@@ -52,19 +52,28 @@
 							<i class="fa fa-circle"></i>
 						</div>
 						<div class="col-xs-4" id="home">
-							<i class="fa fa-home" id="home-icon"></i>
+							<i class="fa fa-stop-circle" id="home-icon"></i>
+							&nbsp;
+							<i class="fa fa-sign-out" id="exit-icon"></i>
 						</div>
 					</div>
 					<div id="shape-container"></div>
 				</div>
 				<div id="end-of-game">
 					<div id="game-result"></div>
-					<div class="form-control">
-						<input type="text" name="player" value="" placeholder="Enter your name">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Claim your success!
+						</div>
+						<div class="panel-body">
+							<form>
+								<input type="text" placeholder="Nickname" id="player-name">
+								<button type="submit" class="btn-ios btn-positive btn-block">
+									SAVE
+								</button>
+							</form>
+						</div>
 					</div>
-					<button class="btn btn-default btn-block" id="replay">
-						Play again?
-					</button>
 				</div>
 			</section>
 			<section id="leaderboards-container">
@@ -110,7 +119,7 @@
 			<div class="container">
 				<div class="row center">
 					<div class="col-xs-4 active" id="play-btn">
-						<i class="fa fa-gamepad"></i>
+						<i class="fa fa-play-circle"></i>
 						<br>
 						Play
 					</div>

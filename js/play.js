@@ -3,22 +3,28 @@ $(document).ready(function() {
 	var lives = 3;
 	var $shapeContainer = $("#shape-container");
 	var circleDimensions = "50px";
-	var CORRECTCOLOR = "rgb(255, 59, 48)";
+	var timeGameStarted;
+	var CORRECT_COLOR = "rgb(255, 59, 48)";
+	var LEVEL_OF_DIFFICULTY;
+	var UNIQUE_GAME_ID = randomString();
+	var POST_URL = "https://damp-meadow-35051.herokuapp.com/api/v1/stats";
 
 	$("#easy").click(function() {	startGame(3); });
 	$("#medium").click(function() {	startGame(20); });
 	$("#hard").click(function() {	startGame(40); });
-	$("#impossible").click(function() {	startGame(65); });
+	$("#impossible").click(function() {	startGame(30); });
 	$("#home-button").click(reload);
 
-	function startGame(levelOfDifficulty) {
+	function startGame(num_circles) {
+		timeGameStarted = new Date();
+		LEVEL_OF_DIFFICULTY = num_circles;
 		hideOtherSections("#game-zone");
 		hideFooter();
 		$("#game-zone").fadeIn();
 		$("#score").html(redCircleCount);
 		$("#lives").html(lives);
-		$("#home-icon").click(reload);
-		createAllShapes(levelOfDifficulty);
+		$("#exit-icon").click(reload);
+		createAllShapes();
 	}
 
 	function hideFooter() {
@@ -29,8 +35,8 @@ $(document).ready(function() {
 		$("section").not(section).hide();
 	}
 
-	function createAllShapes(levelOfDifficulty) {
-		for (var i = 0; i < levelOfDifficulty; i++) {
+	function createAllShapes() {
+		for (var i = 0; i < LEVEL_OF_DIFFICULTY; i++) {
 			setInterval(displayShapes, 300);
 		}
 	}
@@ -50,7 +56,7 @@ $(document).ready(function() {
 		}
 
 		$circle.click(function() {
-			if ($circle.css("background-color") == CORRECTCOLOR) {
+			if ($circle.css("background-color") == CORRECT_COLOR) {
 				redCircleCount++;
 				$("#score").html(redCircleCount);
 			} else {
@@ -77,12 +83,59 @@ $(document).ready(function() {
 
 	function determineIfLost(lives) {
 		if (lives == 0) {
-			setupResultsDisplay();
+			var score = $("#score").text();
+			var data = {
+				"js_id": UNIQUE_GAME_ID,
+				"game": game(),
+				"time_spent": timeSpentInMinutes(),
+				"score": score
+			};
+
+			setUpResultsDisplay();
 			displayGameResult("GAME OVER");
+			postGameResults(data);
 		}
 	}
 
-	function setupResultsDisplay() {
+	function randomString() {
+		var alphabet = (
+			"abcdefghijklmnopqrstuvwxyz" +
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		).split('');
+		var numbers = "123456789".split('');
+		var random_characters = [];
+
+		for (var i = 0; i < 20; i++) {
+			var random_letter = alphabet[randomRange(52, 0)];
+			var random_number = numbers[randomRange(9, 0)];
+			random_characters.push(random_letter);
+			random_characters.push(random_number);
+		}
+
+		return random_characters.join('');
+	}
+
+	function postGameResults(data) {
+		$.post(POST_URL, data, function (response) {
+			console.log("POST API:", response);
+		});
+	}
+
+	function updateGameResults() {
+		var player = $("#player-name").val();
+		var data = {
+			"js_id": UNIQUE_GAME_ID,
+			"player": player
+		};
+
+		// does $.patch() exist?
+	}
+
+	function timeSpentInMinutes() {
+		return ((new Date() - timeGameStarted) / 1000 ) / 60;
+	}
+
+	function setUpResultsDisplay() {
 		$shapeContainer.css("display", "none");
 		$("#end-of-game").css("display", "block");
 	}
@@ -109,16 +162,42 @@ $(document).ready(function() {
 
 	function createCircle() {
 		var $circle = createElement("div", "circle");
+		var dimensions = circlePixels();
+
 		$circle.css("background", randomColor());
-		$circle.css("borderRadius", circleDimensions);
-		$circle.css("height", circleDimensions);
-		$circle.css("width", circleDimensions);
+		$circle.css("borderRadius", dimensions);
+		$circle.css("height", dimensions);
+		$circle.css("width", dimensions);
 		return $circle;
+	}
+
+	function game() {
+		if (LEVEL_OF_DIFFICULTY == 3) {
+			return "easy";
+		} else if (LEVEL_OF_DIFFICULTY == 20) {
+			return "medium";
+		} else if (LEVEL_OF_DIFFICULTY == 40) {
+			return "hard";
+		} else {
+			return "impossible"
+		}
+	}
+
+	function circlePixels() {
+		if (game() == "easy") {
+			return "80px";
+		} else if (game() == "medium") {
+			return "50px";
+		} else if (game() == "hard") {
+			return "40px";
+		} else {
+			return "30px";
+		}
 	}
 
 	function randomColor() {
 		var shape_colors = [
-			CORRECTCOLOR,
+			CORRECT_COLOR,
 			"#5AC8FA",
 			"#FFCC00",
 			"#FF9500",
