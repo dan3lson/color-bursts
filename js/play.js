@@ -118,7 +118,20 @@ $(document).ready(function() {
 	function postGameResults(data) {
 		$.post(POST_URL, data, function (response) {
 			console.log("POST API:", response);
+			debugger;
+		}, "json");
+	}
+
+	getLeaderboards();
+
+	function getLeaderboards() {
+		getAPIGames().done(function(response) {
+			debugger;
 		});
+	}
+
+	function getAPIGames() {
+		return $.get(POST_URL, function() {}, "json");
 	}
 
 	function updateGameResults() {
