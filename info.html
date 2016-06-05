@@ -4,12 +4,12 @@
 	<head>
 		<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The addictive game that sends a burst of colors to your screen.">
     <meta name="keywords" content="addictive game balls color circle ios mobile dots">
     <meta name="author" content="Danelson Rosa">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Color Burst | Home</title>
+		<title>Color Burst | Info</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/custom.css" rel="stylesheet">
 		<link href="css/font-awesome.min.css" rel="stylesheet">
@@ -25,69 +25,27 @@
 		<div class="container">
 			<section id="header">
 				<h1 class="center">
-					COLOR
-					BURST
+					Info
 				</h1>
-				<br>
-				<br>
-				<p class="lead center">
-					Only <i class="fa fa-circle"></i> keeps you going and gives
-					<i class="fa fa-heart"></i>s.
-				</p>
 			</section>
-			<section id="play-options">
-				<div class="play-game-btn">
-					<i class="fa fa-play-circle"></i>
+			<section id="info-container">
+				<br>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<p class="lead">Rules</p>
+					</div>
 				</div>
-			</section>
-			<section id="game-zone">
-				<div class="row">
-					<div id="game-zone-header" class="center">
-						<div class="col-xs-4">
-							<span id="lives"></span>
-							<i class="fa fa-heart"></i>
-						</div>
-						<div class="col-xs-4">
-							<span id="score"></span>
-						</div>
-						<div class="col-xs-4" id="exit-btn">
-							<i class="fa fa-sign-out"></i>
-						</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<p class="lead">Feedback</p>
 					</div>
-					<div id="shape-container"></div>
-				</div>
-				<div id="end-of-game">
-					<div id="game-result" class="center">
-						<h1>GAME OVER</h1>
-						<br>
-						<h2 id="game-result-score">Score: </h2>
-					</div>
-					<br>
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<form>
-								<input type="text"
-											 placeholder="Enter your Nickname"
-											 id="player-name">
-								<div id="save-player-name"
-										 class="btn-ios btn-positive btn-block">
-									SAVE
-								</div>
-							</form>
-						</div>
-					</div>
-					<button type="button"
- 								  id="play-again-btn"
-							    class="btn-ios btn-negative btn-block">
-						PLAY AGAIN
-					</button>
 				</div>
 			</section>
 		</div>
 		<footer class="footer">
 			<div class="container">
 				<div class="row center">
-					<div class="col-xs-4 active">
+					<div class="col-xs-4" id="home-btn">
 						<i class="fa fa-home"></i>
 						<br>
 						Home
@@ -97,7 +55,7 @@
 						<br>
 						Leaderboard
 					</div>
-					<div class="col-xs-4" id="info-btn">
+					<div class="col-xs-4 active">
 						<i class="fa fa-info-circle"></i>
 						<br>
 						Info
@@ -111,7 +69,7 @@
 						crossorigin="anonymous"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/footer.js"></script>
-		<script src="js/play.js"></script>
+		<script src="js/leaderboard.js"></script>
 		<!-- <script>
 			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

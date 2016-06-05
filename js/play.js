@@ -10,7 +10,7 @@ $(document).ready(function() {
 	var gameIntervalID;
 	var CORRECT_COLOR = "rgb(255, 59, 48)";
 	var UNIQUE_GAME_ID = randomString();
-	var POST_URL = "https://damp-meadow-35051.herokuapp.com/api/v1/stats.json";
+	var URL = "https://damp-meadow-35051.herokuapp.com/api/v1/stats";
 
 	setInterval(changePlayCircleBackground, 750);
 
@@ -19,7 +19,7 @@ $(document).ready(function() {
 		postGameResults();
 		setTimeout(reload, 250);
 	});
-	// $("#save-player-name").click(updateGameResults);
+	$("#save-player-name").click(updateStatPlayer);
 
 	function startGame(num_circles) {
 		timeGameStarted = new Date();
@@ -130,20 +130,27 @@ $(document).ready(function() {
 			"time_spent": timeSpentInMinutes(),
 			"score": score
 		};
+		var $post = $.post(URL, data, function() {}, "json");
 
-		$.post(POST_URL, data, function(response) {
-			console.log(response);
-		}, "json");
-	}
-
-	function getLeaderboards() {
-		getAPIGames().done(function(response) {
+		$post.done(function(response) {
 			console.log(response);
 		});
 	}
 
-	function getAPIGames() {
-		return $.get(POST_URL, function() {}, "json");
+	function updateStatPlayer() {
+		var data = {
+			"player": $("#player-name").val()
+		};
+
+		$.ajax({
+			type: "PATCH",
+			url: URL + "/" + UNIQUE_GAME_ID,
+			dataType: "json",
+			data: data
+		}).done(function(response) {
+			console.log(response);
+			location.href = "index.html";
+		});
 	}
 
 	function updateGameResults() {
@@ -155,7 +162,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: "PATCH",
-			url: POST_URL,
+			url: URL,
 			dataType: "json",
 			data: data,
 			success: function(response) {

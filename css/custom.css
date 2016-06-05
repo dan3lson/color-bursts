@@ -1,3 +1,10 @@
+html {
+	min-height: 100%;
+	position: relative;
+}
+body {
+	margin-bottom: 60px;
+}
 .bomb {
 	color: #FFF;
 	font-size: 25px;
@@ -47,7 +54,15 @@
 #end-of-game {
 	display: none;
 }
+.fa-circle {
+	color: rgb(255, 59, 48);
+}
+.fa-play-circle {
+	color: rgb(255, 59, 48);
+	font-size: 187px !important;
+}
 .footer {
+	background: #FFF;
 	border-top: 1px solid #DDD;
 	border-bottom: 0;
 	bottom: 0;
@@ -55,7 +70,7 @@
 	font-size: 11px;
 	height: 49px;
 	padding-top: 5px;
-  position: absolute;
+  position: fixed;
 	width: 100%;
 }
 .footer .col-xs-4.active {
@@ -112,13 +127,6 @@ input {
 	padding: 0 15px;
 	width: 100%;
 	-webkit-appearance: none;
-}
-.fa-circle {
-	color: rgb(255, 59, 48);
-}
-.fa-play-circle {
-	color: rgb(255, 59, 48);
-	font-size: 187px;
 }
 #play-options {
 	padding-top: 36px;

@@ -5,4 +5,7 @@ $(document).ready(function() {
 	$("#leaderboards-btn").click(function() {
 		location.href = "leaderboard.html"
 	});
+	$("#info-btn").click(function() {
+		location.href = "info.html"
+	});
 });
