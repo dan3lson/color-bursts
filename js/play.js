@@ -1,79 +1,96 @@
 $(document).ready(function() {
-	var redCircleCount = 0;
-	var lives = 3;
+	var score = 0;
+	var lives = 1;
+	var pointsNeededToLevelUp = 3;
 	var $shapeContainer = $("#shape-container");
-	var circleDimensions = "50px";
+	var circleDimensions = 150;
+	var gameSpeed = 450;
 	var timeGameStarted;
+	var initialIntervalID;
+	var gameIntervalID;
 	var CORRECT_COLOR = "rgb(255, 59, 48)";
-	var LEVEL_OF_DIFFICULTY;
 	var UNIQUE_GAME_ID = randomString();
-	var POST_URL = "https://damp-meadow-35051.herokuapp.com/api/v1/stats";
+	var POST_URL = "https://damp-meadow-35051.herokuapp.com/api/v1/stats.json";
 
-	$("#easy").click(function() {	startGame(3); });
-	$("#medium").click(function() {	startGame(20); });
-	$("#hard").click(function() {	startGame(40); });
-	$("#impossible").click(function() {	startGame(30); });
-	$("#home-button").click(reload);
+	setInterval(changePlayCircleBackground, 750);
+
+	$(".play-game-btn").click(startGame);
+	$("#exit-btn").click(function() {
+		postGameResults();
+		setTimeout(reload, 250);
+	});
+	// $("#save-player-name").click(updateGameResults);
 
 	function startGame(num_circles) {
 		timeGameStarted = new Date();
-		LEVEL_OF_DIFFICULTY = num_circles;
+		$(".fa-play-circle").hide();
 		hideOtherSections("#game-zone");
 		hideFooter();
-		$("#game-zone").fadeIn();
-		$("#score").html(redCircleCount);
-		$("#lives").html(lives);
-		$("#exit-icon").click(reload);
-		createAllShapes();
+		$("#game-zone").show();
+		updateScoreDisplay();
+		updateLivesDisplay();
+		initialIntervalID = displayNewCircle();
 	}
 
 	function hideFooter() {
 		$(".footer").hide();
 	}
 
+	function showFooter() {
+		$(".footer").show();
+	}
+
 	function hideOtherSections(section) {
 		$("section").not(section).hide();
 	}
 
-	function createAllShapes() {
-		for (var i = 0; i < LEVEL_OF_DIFFICULTY; i++) {
-			setInterval(displayShapes, 300);
-		}
+	function displayNewCircle() {
+		clearInterval(initialIntervalID);
+		clearInterval(gameIntervalID);
+		gameIntervalID = setInterval(appendNewCircle, gameSpeed);
 	}
 
-	function displayShapes() {
-		var $circle = createCircle();
-		$shapeContainer.append($circle);
-		var totalShapes = $shapeContainer.find("div").length;
-		$circle.css("left", positionWidth());
-		$circle.css("top", positionHeight());
-		$circle.css("position", "absolute");
+	function appendNewCircle() {
+		$shapeContainer.append(createCircle());
 
-		if ($circle.css("background-color") == "rgb(0, 0, 0)") {
-			var $bomb = createElement("i", "fa fa-bomb");
-			$circle.addClass("bomb");
-			$circle.append($bomb);
-		}
+		// if ($circle.css("background-color") == "rgb(0, 0, 0)") {
+		// 	var $bomb = createElement("i", "fa fa-bomb");
+		// 	$circle.addClass("bomb");
+		// 	$circle.append($bomb);
+		// }
+	};
 
-		$circle.click(function() {
-			if ($circle.css("background-color") == CORRECT_COLOR) {
-				redCircleCount++;
-				$("#score").html(redCircleCount);
-			} else {
-				console.log("WRONG:", $circle.css("background-color"));
-				lives--;
-				$("#lives").html(lives);
-				determineIfLost(lives);
+	$shapeContainer.on("click", ".circle", function() {
+		console.log("Circle Dimensions", circleDimensions);
+
+		var $circle = $(this);
+
+		if ($circle.css("background-color") == CORRECT_COLOR) {
+			increaseScore();
+			updateScoreDisplay();
+
+			if (score % pointsNeededToLevelUp == 0) {
+				levelUp();
+			}
+		} else {
+			subtractLife();
+			updateLivesDisplay();
+
+			if (lives == 1 && score > 15) {
+				gameSpeed = 700;
 			}
 
-			console.log("Red circle count", redCircleCount);
-			console.log("Lives: ", lives);
+			determineIfLost();
+		}
 
-			var totalShapes = $shapeContainer.find(".circle");
-			console.log("Num circles", totalShapes.length);
-			randomizeColor(totalShapes);
-		});
-	};
+		displayNewCircle();
+
+		console.log("Score", score);
+		console.log("Lives", lives);
+
+		var totalShapes = $shapeContainer.find("div");
+		randomizeColor(totalShapes);
+	});
 
 	function randomizeColor(shapes) {
 		for (var i = 0; i < shapes.length; i++) {
@@ -81,19 +98,11 @@ $(document).ready(function() {
 		}
 	}
 
-	function determineIfLost(lives) {
+	function determineIfLost() {
 		if (lives == 0) {
-			var score = $("#score").text();
-			var data = {
-				"js_id": UNIQUE_GAME_ID,
-				"game": game(),
-				"time_spent": timeSpentInMinutes(),
-				"score": score
-			};
-
-			setUpResultsDisplay();
-			displayGameResult("GAME OVER");
-			postGameResults(data);
+			$shapeContainer.remove();
+			displayGameResults();
+			postGameResults();
 		}
 	}
 
@@ -115,18 +124,21 @@ $(document).ready(function() {
 		return random_characters.join('');
 	}
 
-	function postGameResults(data) {
-		$.post(POST_URL, data, function (response) {
-			console.log("POST API:", response);
-			debugger;
+	function postGameResults() {
+		var data = {
+			"js_id": UNIQUE_GAME_ID,
+			"time_spent": timeSpentInMinutes(),
+			"score": score
+		};
+
+		$.post(POST_URL, data, function(response) {
+			console.log(response);
 		}, "json");
 	}
 
-	getLeaderboards();
-
 	function getLeaderboards() {
 		getAPIGames().done(function(response) {
-			debugger;
+			console.log(response);
 		});
 	}
 
@@ -141,16 +153,29 @@ $(document).ready(function() {
 			"player": player
 		};
 
-		// does $.patch() exist?
+		$.ajax({
+			type: "PATCH",
+			url: POST_URL,
+			dataType: "json",
+			data: data,
+			success: function(response) {
+				console.log(response.errors);
+				debugger;
+			}
+		});
 	}
 
 	function timeSpentInMinutes() {
 		return ((new Date() - timeGameStarted) / 1000 ) / 60;
 	}
 
-	function setUpResultsDisplay() {
-		$shapeContainer.css("display", "none");
+	function displayGameResults() {
+		$("#header").html("GAME OVER");
+		$("#game-result").fadeIn();
+		$("#game-zone-header").hide();
+		showFooter();
 		$("#end-of-game").css("display", "block");
+		$("#game-result-score").append(score);
 	}
 
 	function startOver() {
@@ -169,47 +194,84 @@ $(document).ready(function() {
 		return randomRange(window.innerHeight, 0) + "px";
 	}
 
-	function displayGameResult(result) {
-		$("#game-result").html(result);
-	}
-
 	function createCircle() {
 		var $circle = createElement("div", "circle");
-		var dimensions = circlePixels();
+		var size = circleDimensions + "px";
 
 		$circle.css("background", randomColor());
-		$circle.css("borderRadius", dimensions);
-		$circle.css("height", dimensions);
-		$circle.css("width", dimensions);
+		$circle.css("borderRadius", size);
+		$circle.css("height", size);
+		$circle.css("left", positionWidth());
+		$circle.css("position", "absolute");
+		$circle.css("top", positionHeight());
+		$circle.css("width", size);
 		return $circle;
 	}
 
-	function game() {
-		if (LEVEL_OF_DIFFICULTY == 3) {
-			return "easy";
-		} else if (LEVEL_OF_DIFFICULTY == 20) {
-			return "medium";
-		} else if (LEVEL_OF_DIFFICULTY == 40) {
-			return "hard";
-		} else {
-			return "impossible"
-		}
+	function levelUp() {
+		decreaseCircleSize();
+		increaseGameSpeed();
+		addLife();
+		updateLivesDisplay();
+		emptyShapeContainer();
 	}
 
-	function circlePixels() {
-		if (game() == "easy") {
-			return "80px";
-		} else if (game() == "medium") {
-			return "50px";
-		} else if (game() == "hard") {
-			return "40px";
-		} else {
-			return "30px";
+	function changePlayCircleBackground() {
+		$(".fa-play-circle").css("color", randomColor());
+	}
+
+	function emptyShapeContainer() {
+		$shapeContainer.empty();
+	}
+
+	function removeShapeContainer() {
+		$shapeContainer.remove();
+	}
+
+	function increaseScore() {
+		score++;
+	}
+
+	function addLife() {
+		lives++;
+	}
+
+	function subtractLife() {
+		lives--;
+	}
+
+	function increaseGameSpeed() {
+		gameSpeed -= 30;
+		console.log(gameSpeed);
+	}
+
+	function decreaseCircleSize() {
+		if (circleDimensions < 30) {
+			circleDimensions = 130;
+			gameSpeed +=  75;
 		}
+		circleDimensions -= 10;
+	}
+
+	function increaseAllCircleSizes(amount) {
+		var size = circleDimensions + amount + "px";
+		$shapeContainer.find(".circle").css("width", size);
+		$shapeContainer.find(".circle").css("height", size);
+		$shapeContainer.find(".circle").css("border-radius", size);
+	}
+
+	function updateLivesDisplay() {
+		$("#lives").html(lives);
+	}
+
+	function updateScoreDisplay() {
+		$("#score").html(score);
 	}
 
 	function randomColor() {
 		var shape_colors = [
+			CORRECT_COLOR,
+			CORRECT_COLOR,
 			CORRECT_COLOR,
 			"#5AC8FA",
 			"#FFCC00",
@@ -222,7 +284,7 @@ $(document).ready(function() {
 			"#000000",
 			"#007AFF"
 		];
-		return shape_colors[randomRange(11, 0)];
+		return shape_colors[randomRange(13, 0)];
 	}
 
 	function randomRange (x, y) {
