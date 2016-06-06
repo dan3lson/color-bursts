@@ -149,7 +149,7 @@ $(document).ready(function() {
 			data: data
 		}).done(function(response) {
 			console.log(response);
-			location.href = "index.html";
+			location.href = "leaderboard.html";
 		});
 	}
 

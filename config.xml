@@ -13,11 +13,13 @@
 	        Danelson Rosa
 	    </author>
 
+      <access origin="http://danelsonrosa.com" subdomains="true" />
+      <access origin="https://damp-meadow-35051.herokuapp.com" subdomains="true" />
+
 			<platform name="ios" />
 
 			<preference name="orientation" value="portrait" />
-			<preference name="fullscreen" value="false" />
-			<preference name="exit-on-suspend" value="true" />
+			<preference name="fullscreen" value="true" />
 
 			<!-- iPhone 6 / 6+ -->
 			<icon src="images/res/icon/ios/icon-60@3x.png" platform="ios" width="180" height="180" />
