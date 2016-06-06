@@ -45,6 +45,9 @@ body {
 	background-color: transparent;
 	border: 1px solid rgb(255, 59, 48);
 }
+.cb {
+	margin-top: .7em;
+}
 .center {
 	text-align: center;
 }
@@ -57,9 +60,12 @@ body {
 .fa-circle {
 	color: rgb(255, 59, 48);
 }
-.fa-play-circle {
+.fa-fa-play-circle {
 	color: rgb(255, 59, 48);
-	font-size: 187px !important;
+	font-size: 259px !important;
+}
+#feedback-response, #empty-feedback-response {
+	display: none;
 }
 .footer, #footer {
 	background: #FFF;
@@ -114,7 +120,7 @@ h1 {
 input, button {
 	font-size: 17px;
 }
-input {
+input, textarea {
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 3px;
@@ -127,6 +133,9 @@ input {
 	-webkit-appearance: none;
 }
 #play-options {
-	padding-top: 36px;
+	padding-top: 30px;
 	text-align: center;
+}
+textarea {
+	height: auto;
 }

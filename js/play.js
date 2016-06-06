@@ -224,7 +224,7 @@ $(document).ready(function() {
 	}
 
 	function changePlayCircleBackground() {
-		$(".fa-play-circle").css("color", randomColor());
+		$(".fa-fa-play-circle").css("color", randomColor());
 	}
 
 	function emptyShapeContainer() {
@@ -289,7 +289,7 @@ $(document).ready(function() {
 			"#EFEFF4",
 			"#CECED2",
 			"#000000",
-			"#007AFF"
+			"#5856D6"
 		];
 		return shape_colors[randomRange(13, 0)];
 	}
