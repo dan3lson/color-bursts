@@ -3,7 +3,7 @@
         id          = "2102704"
         version     = "1.0.0" >
 
-	    <name>Color Burst</name>
+	    <name>Color Bursts</name>
 	    <description>
 	        A simple yet addictive game that sends a burst of color to your
           screen.
